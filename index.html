@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infographic: The State of AI in Financial Research 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.2/dist/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Brilliant Blues (and Oranges) -->
+    <!-- Application Structure Plan: A top-to-bottom narrative infographic. It begins with a 'hook' visualizing the market's core dynamic (Democratization vs. Specialization). The centerpiece is a bubble chart mapping the competitive landscape. This is followed by a section grouping platforms into personas for easier comprehension. The narrative then shifts to analyzing key differentiators across the market using comparative charts (donut, bar). It concludes with actionable guidance via a flowchart and a forward-looking summary. This linear, story-driven structure is ideal for an infographic format, guiding the user from a high-level overview to specific, actionable insights. -->
+    <!-- Visualization & Content Choices: 
+        - Market Dynamic: Goal: Inform -> HTML/CSS Diagram -> Justification: Simple, effective visualization for a core concept without chart overhead. Method: HTML/CSS. NO SVG.
+        - Competitive Landscape: Goal: Relationships/Compare -> Bubble Chart -> Justification: Shows relationships between three key variables (user type, focus, price) for all platforms in one view. Method: Chart.js/Canvas. NO SVG.
+        - Platform Personas: Goal: Organize/Inform -> Material Design Cards -> Justification: A clean, scannable way to present categorized platform highlights. Method: HTML/CSS. NO SVG.
+        - Trust & Explainability: Goal: Inform/Compare -> Donut Chart -> Justification: Excellent for showing a simple, powerful proportion of a key market trend. Method: Chart.js/Canvas. NO SVG.
+        - AI Capability Distribution: Goal: Compare/Organize -> Bar Chart -> Justification: Best for comparing the frequency of different AI features across the market. Method: Chart.js/Canvas. NO SVG.
+        - Selection Guide: Goal: Organize/Process -> HTML/CSS Flowchart -> Justification: Transforms text-based guidance into an easy-to-follow visual process. Method: HTML/CSS/Unicode. NO SVG/MERMAID.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            max-height: 60vh;
+        }
+        .flowchart-node {
+            border: 2px solid #003f5c;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            position: relative;
+        }
+        .flowchart-arrow {
+            font-size: 2.5rem;
+            color: #ff7c43;
+            line-height: 1;
+            margin: 0.5rem 0;
+            font-weight: 800;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <main class="container mx-auto p-4 md:p-8 max-w-7xl">
+
+        <section id="intro" class="text-center mb-16">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-[#003f5c] mb-4">The AI Revolution in Finance</h1>
+            <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">In 2025, Artificial Intelligence is no longer an emerging trend but a fundamental force reshaping financial research, driving efficiency and uncovering insights at unprecedented scale.</p>
+        </section>
+
+        <section id="market-dynamic" class="mb-20">
+            <div class="bg-white rounded-lg shadow-lg p-6 md:p-8">
+                <h2 class="text-2xl md:text-3xl font-bold text-[#665191] text-center mb-6">A Market of Duality: Two Key Trends Emerge</h2>
+                <p class="text-center text-gray-600 max-w-4xl mx-auto mb-8">The AI financial tool market is splitting. On one side, user-friendly tools are making powerful analytics accessible to everyone. On the other, highly specialized platforms are pushing the boundaries of what's possible for expert users.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
+                    <div class="border-4 border-dashed border-[#ff7c43] rounded-lg p-6">
+                        <h3 class="text-2xl font-bold text-[#d45087] mb-3">Democratization</h3>
+                        <p class="text-gray-700">Conversational AI and intuitive interfaces lower the barrier to entry, empowering retail investors and general professionals with institutional-grade data and analytics.</p>
+                    </div>
+                    <div class="border-4 border-dashed border-[#ffa600] rounded-lg p-6">
+                        <h3 class="text-2xl font-bold text-[#a05195] mb-3">Specialization</h3>
+                        <p class="text-gray-700">Hyper-focused algorithms for intraday trading, quantitative analysis, and predictive scoring provide a competitive edge for active traders and financial experts.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="landscape" class="mb-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-4">The 2025 AI Platform Landscape</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">This market map visualizes the positions of key AI financial research platforms. They are plotted by their primary user focus and investment style, with the size of the bubble indicating their general price point.</p>
+            <div class="bg-white rounded-lg shadow-lg p-4 md:p-6">
+                <div class="chart-container h-96 md:h-[550px]">
+                    <canvas id="landscapeBubbleChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <section id="personas" class="mb-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-4">Meet the Platforms: A Closer Look</h2>
+            <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">While each platform is unique, they can be grouped into several key personas based on their core strengths and target audience, helping to clarify their role in the market.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="bg-[#f95d6a] text-white rounded-lg shadow-xl p-6 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-3">The All-Rounders</h3>
+                    <p class="mb-4 text-white/90 flex-grow">Comprehensive platforms for deep market intelligence and research, catering to professionals and enterprises.</p>
+                    <div class="space-y-3">
+                        <div class="bg-white/20 p-3 rounded-md"><strong>AlphaSense:</strong> Enterprise search with Smart Synonyms™</div>
+                        <div class="bg-white/20 p-3 rounded-md"><strong>EasyFin.ai:</strong> Automated investment memos with citations</div>
+                    </div>
+                </div>
+                
+                <div class="bg-[#ff7c43] text-white rounded-lg shadow-xl p-6 flex flex-col">
+                    <h3 class="text-2xl font-bold mb-3">The Democratizers</h3>
+                    <p class="mb-4 text-white/90 flex-grow">Making sophisticated data accessible to all through intuitive interfaces and affordable pricing.</p>
+                     <div class="space-y-3">
+                        <div class="bg-white/20 p-3 rounded-md"><strong>FinChat.io:</strong> Conversational AI with cited S&P data</div>
+                        <div class="bg-white/20 p-3 rounded-md"><strong>WritingMate.ai:</strong> "Chat with files" for easy document analysis</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#ffa600] text-white rounded-lg shadow-xl p-6 flex flex-col">
+                     <h3 class="text-2xl font-bold mb-3">The Predictors</h3>
+                    <p class="mb-4 text-white/90 flex-grow">Using AI to score stocks and forecast market outperformance with quantifiable metrics.</p>
+                     <div class="space-y-3">
+                        <div class="bg-white/20 p-3 rounded-md"><strong>Kavout:</strong> Predictive "K Score" for stock selection</div>
+                        <div class="bg-white/20 p-3 rounded-md"><strong>DanelFin:</strong> Explainable AI score (1-10)</div>
+                        <div class="bg-white/20 p-3 rounded-md"><strong>Seeking Alpha:</strong> Data-driven Quant Ratings</div>
+                    </div>
+                </div>
+
+                <div class="bg-[#003f5c] text-white rounded-lg shadow-xl p-6 flex flex-col">
+                     <h3 class="text-2xl font-bold mb-3">The Specialists</h3>
+                    <p class="mb-4 text-white/90 flex-grow">Hyper-focused tools for active traders leveraging automated analysis and real-time signals.</p>
+                     <div class="space-y-3">
+                        <div class="bg-white/20 p-3 rounded-md"><strong>Trade Ideas:</strong> "Holly AI" for intraday trade signals</div>
+                        <div class="bg-white/20 p-3 rounded-md"><strong>TrendSpider:</strong> AI-automated technical analysis</div>
+                        <div class="bg-white/20 p-3 rounded-md"><strong>Tickeron:</strong> Marketplace for AI trading bots</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="differentiators" class="mb-20">
+            <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-12">Key Differentiators in the AI Market</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center text-[#665191] mb-2">The Currency of Trust</h3>
+                    <p class="text-center text-gray-600 mb-6">A significant portion of platforms now emphasize verifiability through citations or Explainable AI (XAI) to build user confidence in their outputs.</p>
+                    <div class="chart-container h-72 md:h-80 max-w-sm mx-auto">
+                        <canvas id="trustDonutChart"></canvas>
+                    </div>
+                </div>
+                 <div class="bg-white rounded-lg shadow-lg p-6">
+                    <h3 class="text-2xl font-bold text-center text-[#665191] mb-2">Dominant AI Capabilities</h3>
+                    <p class="text-center text-gray-600 mb-6">The market offers a diverse set of AI features, from analysis and summarization to predictive scoring and automated trading signals.</p>
+                    <div class="chart-container h-72 md:h-80">
+                        <canvas id="capabilitiesBarChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="selection-guide" class="mb-20">
+             <h2 class="text-3xl md:text-4xl font-bold text-[#003f5c] text-center mb-4">How to Choose Your AI Partner</h2>
+             <p class="text-center text-gray-600 max-w-3xl mx-auto mb-12">Selecting the right platform depends on your specific goals. Follow this simple guide to identify which platform persona aligns with your needs.</p>
+             <div class="flex flex-col items-center">
+                 <div class="flowchart-node w-full max-w-md">
+                     <h4 class="text-xl font-bold text-[#003f5c]">START HERE: What is your primary goal?</h4>
+                 </div>
+                 <div class="flowchart-arrow">↓</div>
+                 <div class="w-full flex flex-col md:flex-row justify-center items-stretch md:items-start gap-8">
+                     <div class="flex flex-col items-center flex-1">
+                        <div class="flowchart-node w-full max-w-sm h-full flex flex-col justify-center">
+                            <div class="text-lg font-semibold text-[#d45087]">Deep Research & Due Diligence</div>
+                        </div>
+                        <div class="flowchart-arrow">↓</div>
+                        <div class="flowchart-node w-full max-w-sm bg-[#f95d6a] text-white">
+                            Look at <strong class="font-extrabold">The All-Rounders</strong>
+                        </div>
+                     </div>
+                     <div class="flex flex-col items-center flex-1">
+                        <div class="flowchart-node w-full max-w-sm h-full flex flex-col justify-center">
+                             <div class="text-lg font-semibold text-[#d45087]">Finding & Executing Trades</div>
+                        </div>
+                        <div class="flowchart-arrow">↓</div>
+                         <div class="flowchart-node w-full max-w-sm bg-[#003f5c] text-white">
+                            Look at <strong class="font-extrabold">The Specialists</strong>
+                        </div>
+                     </div>
+                     <div class="flex flex-col items-center flex-1">
+                        <div class="flowchart-node w-full max-w-sm h-full flex flex-col justify-center">
+                             <div class="text-lg font-semibold text-[#d45087]">Stock Ideas & Easy Data Access</div>
+                        </div>
+                        <div class="flowchart-arrow">↓</div>
+                         <div class="flowchart-node w-full max-w-sm bg-[#ff7c43] text-white">
+                            Look at <strong class="font-extrabold">The Democratizers</strong>
+                        </div>
+                     </div>
+                     <div class="flex flex-col items-center flex-1">
+                        <div class="flowchart-node w-full max-w-sm h-full flex flex-col justify-center">
+                            <div class="text-lg font-semibold text-[#d45087]">Predicting Market Outperformance</div>
+                        </div>
+                        <div class="flowchart-arrow">↓</div>
+                         <div class="flowchart-node w-full max-w-sm bg-[#ffa600] text-white">
+                            Look at <strong class="font-extrabold">The Predictors</strong>
+                        </div>
+                     </div>
+                 </div>
+             </div>
+        </section>
+
+         <section id="horizon" class="text-center py-12 bg-gradient-to-r from-[#003f5c] to-[#665191] rounded-lg shadow-xl text-white">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">The Horizon: What's Next for AI in Finance?</h2>
+            <p class="text-lg max-w-3xl mx-auto mb-8">The evolution is far from over. Expect more personalization, deeper predictive power, and an even tighter collaboration between human expertise and machine intelligence.</p>
+            <div class="flex flex-wrap justify-center gap-6 md:gap-8 text-lg">
+                <span class="bg-white/20 px-4 py-2 rounded-full">🎯 Hyper-Personalization</span>
+                <span class="bg-white/20 px-4 py-2 rounded-full">📈 Advanced Prediction</span>
+                <span class="bg-white/20 px-4 py-2 rounded-full">🌿 AI in ESG Analysis</span>
+                <span class="bg-white/20 px-4 py-2 rounded-full">🤝 Collaborative "Centaur" Models</span>
+                <span class="bg-white/20 px-4 py-2 rounded-full">💡 Enhanced Explainability (XAI)</span>
+            </div>
+        </section>
+
+    </main>
+
+<script>
+const platformData = {
+    'EasyFin.ai':        { user: 3, focus: 4, price: 2, persona: 'All-Rounders' },
+    'AlphaSense':        { user: 5, focus: 5, price: 3, persona: 'All-Rounders' },
+    'FinChat.io':        { user: 2, focus: 2, price: 1, persona: 'Democratizers' },
+    'Kavout':            { user: 4, focus: 3, price: 2, persona: 'Predictors' },
+    'Tickeron':          { user: 4, focus: 6, price: 2, persona: 'Specialists' },
+    'Trade Ideas':       { user: 5, focus: 7, price: 3, persona: 'Specialists' },
+    'TrendSpider':       { user: 4, focus: 7, price: 2, persona: 'Specialists' },
+    'DanelFin':          { user: 2, focus: 3, price: 1, persona: 'Predictors' },
+    'Seeking Alpha':     { user: 2, focus: 2.5, price: 2, persona: 'Predictors' },
+    'WritingMate.ai':    { user: 3, focus: 1, price: 1, persona: 'Democratizers' },
+};
+
+const personaColors = {
+    'All-Rounders': '#f95d6a',
+    'Democratizers': '#ff7c43',
+    'Predictors': '#ffa600',
+    'Specialists': '#003f5c',
+};
+
+const wrapLabel = (label, maxLength) => {
+    if (label.length <= maxLength) {
+        return label;
+    }
+    const words = label.split(' ');
+    const lines = [];
+    let currentLine = '';
+    words.forEach(word => {
+        if ((currentLine + word).length > maxLength) {
+            lines.push(currentLine.trim());
+            currentLine = '';
+        }
+        currentLine += word + ' ';
+    });
+    lines.push(currentLine.trim());
+    return lines;
+};
+
+const tooltipTitleCallback = (tooltipItems) => {
+    const item = tooltipItems[0];
+    let label = item.chart.data.labels[item.dataIndex];
+    if (Array.isArray(label)) {
+      return label.join(' ');
+    }
+    return label;
+};
+
+const initBubbleChart = () => {
+    const ctx = document.getElementById('landscapeBubbleChart').getContext('2d');
+    const datasets = Object.keys(platformData).map(name => {
+        const data = platformData[name];
+        return {
+            label: name,
+            data: [{
+                x: data.focus,
+                y: data.user,
+                r: 8 + data.price * 6
+            }],
+            backgroundColor: personaColors[data.persona] + 'BF',
+            borderColor: personaColors[data.persona],
+            borderWidth: 2,
+        };
+    });
+
+    new Chart(ctx, {
+        type: 'bubble',
+        data: {
+            datasets: datasets
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return ' ' + context.dataset.label;
+                        },
+                         title: function() { return ''; }
+                    },
+                    backgroundColor: '#003f5c',
+                    bodyFont: { size: 14, weight: 'bold' },
+                    padding: 10,
+                    cornerRadius: 5,
+                    displayColors: false,
+                }
+            },
+            scales: {
+                y: {
+                    title: { display: true, text: 'User Profile → (Retail to Institutional)', font: { size: 14, weight: 'bold' }, color: '#003f5c' },
+                    min: 0, max: 6, ticks: { display: false }
+                },
+                x: {
+                    title: { display: true, text: 'Platform Focus → (General Research to Specialized Trading)', font: { size: 14, weight: 'bold' }, color: '#003f5c' },
+                    min: 0, max: 8, ticks: { display: false }
+                }
+            }
+        }
+    });
+};
+
+const initDonutChart = () => {
+    const ctx = document.getElementById('trustDonutChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Emphasize Trust (Citations/XAI)', 'Standard Black Box'],
+            datasets: [{
+                data: [4, 6],
+                backgroundColor: ['#ff7c43', '#003f5c'],
+                borderColor: '#FFFFFF',
+                borderWidth: 4,
+                hoverOffset: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        font: { size: 14 },
+                        color: '#003f5c',
+                        boxWidth: 20
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            cutout: '60%'
+        }
+    });
+};
+
+const initBarChart = () => {
+    const ctx = document.getElementById('capabilitiesBarChart').getContext('2d');
+    const rawLabels = [
+        'Generative AI / Summarization', 
+        'Predictive Scoring / Ratings', 
+        'Automated Trading / Bots',
+        'AI-Powered Technical Analysis',
+        'Conversational AI / Chatbot'
+    ];
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: rawLabels.map(l => wrapLabel(l, 18)),
+            datasets: [{
+                label: 'Number of Platforms',
+                data: [4, 3, 3, 2, 2],
+                backgroundColor: ['#003f5c', '#665191', '#a05195', '#d45087', '#f95d6a'],
+                borderRadius: 4
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    grid: { display: false },
+                     ticks: { font: { size: 14, weight: '600' }, color: '#003f5c' }
+                },
+                y: {
+                     grid: { display: false },
+                     ticks: { font: { size: 14, weight: '600' }, color: '#003f5c' }
+                }
+            }
+        }
+    });
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    initBubbleChart();
+    initDonutChart();
+    initBarChart();
+});
+</script>
+</body>
+</html>
